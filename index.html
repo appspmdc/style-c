@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <title>Building-C StyleResidences</title>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
@@ -58,7 +59,7 @@
 </head>
 <body>
 
-<div id="loader">
+<div id="loader" role="status" aria-label="Loading application...">
   <div class="spinner"></div>
 </div>
 
@@ -74,16 +75,23 @@
   function hideLoader() {
     var loader = document.getElementById('loader');
     
+    // Safety check to ensure it doesn't try to hide an already hidden loader
+    if (!loader || loader.style.display === 'none') return;
+    
     // Slight delay to ensure the visual rendering is caught up
     setTimeout(function() {
       loader.style.opacity = '0'; // Fade out
       
-      // Remove from display flow after fade
+      // Remove from display flow after fade completes
       setTimeout(function() {
         loader.style.display = 'none';
-      }, 500);
+      }, 500); // Matches the CSS transition duration
     }, 500);
   }
+
+  // Fallback: Force hide the loader after 10 seconds.
+  // This prevents the user from getting stuck if the iframe fails to load completely.
+  setTimeout(hideLoader, 10000);
 </script>
 
 </body>
